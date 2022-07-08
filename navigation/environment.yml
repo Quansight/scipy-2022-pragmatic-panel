@@ -1,0 +1,16 @@
+name: scipy2022
+channels:
+  - conda-forge
+
+dependencies:
+  - python==3.8
+  - geoviews
+  - holoviews
+  - hvplot
+  - ipykernel
+  - ipywidgets
+  - jupyterlab
+  - numpy
+  - pandas
+  - panel
+  - param
