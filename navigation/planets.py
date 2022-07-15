@@ -2,6 +2,7 @@ from typing import final
 import panel as pn
 import param
 import json
+from pathlib import Path
 
 class PlanetsPage(param.Parameterized):
 
@@ -14,8 +15,7 @@ class PlanetsPage(param.Parameterized):
 
     def load_data(self):
         if self.planets_data is None:
-
-            raw_data = json.load(open("../data/planets.json"))
+            raw_data = json.load(open(Path('.').parent.joinpath("data/planets.json")))
 
             self.planets_ids = [  p['id'] for p in raw_data  ]
             self.planets_data = {  p['id']:p for p in raw_data }

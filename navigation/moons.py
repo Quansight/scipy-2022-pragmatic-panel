@@ -2,6 +2,7 @@ from typing import final
 import panel as pn
 import param
 import json
+from pathlib import Path
 
 class MoonsPage(param.Parameterized):
 
@@ -14,8 +15,7 @@ class MoonsPage(param.Parameterized):
 
     def load_data(self):
         if self.moons_data is None:
-
-            raw_data = json.load(open("../data/satellites.json"))
+            raw_data = json.load(open(Path('.').parent.joinpath("data/satellites.json")))
 
             self.moons_ids = [  p['id'] for p in raw_data  ]
             self.moons_data = {  p['id']:p for p in raw_data }
@@ -28,7 +28,9 @@ class MoonsPage(param.Parameterized):
         except Exception:
             moon_id = None
             
-
+        # if we are on the root page (or an unknown id was given)
+        # then the page will appear as a list of links to individual
+        # moon pages
         if moon_id is None or moon_id not in self.moons_ids:
 
             # builds a list of links to display in markdown.
@@ -40,6 +42,9 @@ class MoonsPage(param.Parameterized):
 
             return pn.pane.Markdown(f'''## moons \n {links}''')
 
+        # if we are on an individual moon page, the moon_id will be 
+        # available through the URL and pn.state
+        # then the page will generate the moon details
         else:
 
             moon_name = self.moons_data[moon_id]['name']
